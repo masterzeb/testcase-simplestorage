@@ -1,0 +1,51 @@
+<!doctype html>
+{% load i18n %}
+{% load staticfiles %}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width" />
+    
+    <title>Astra Test Case</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+    <script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.form.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+</head>
+
+<body>
+    <div id="container">
+        <h4>{% trans 'Upload new image' %}</h4>
+        <form id="upload" action="{% url 'upload' %}" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <input type="file" name="file" />
+        </form>
+        <br />
+        
+        {% if images %}           
+            <h4>{% trans 'Random image' %}</h4>
+            <img src="{{ random_image.file.url }}" />
+            <br />
+            <a href="{{ random_image_resize_url }}" target="_blank">{% trans 'Resize it' %}</a>
+            <br /><br />
+        {% endif %}
+        
+        
+        <div id="uploads" {% if not images %}class="hidden"{% endif %}>
+            <h4>{% trans 'Uploaded images' %}</h4>
+            
+            <div id="images">
+                {% for image in images %}
+                    {% if image.is_file_exist %}
+                        <img src="{{ image.file.url }}" />
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

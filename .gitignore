@@ -1,0 +1,9 @@
+*.pem
+*.pyc
+*.komodoproject
+local_settings.py
+migrations/
+uploads/
+static/
+*.komodotools/
+
